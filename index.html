@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HOET — Podcast Video · Editing SOP (Multi-Cam)</title>
+<meta name="description" content="House of EdTech Standard Operating Procedure for editing multi-cam podcast video — intake, sync, multi-cam setup, long-form, teaser and short-form deliverables." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Oswald:wght@500;600;700&family=Poppins:wght@500;600;700&family=Montserrat:wght@500;600;700&family=Source+Code+Pro:wght@500&display=swap" />
+<script>
+  // Set theme before paint to avoid flash. Default dark; respect saved choice, else system.
+  (function(){
+    try{
+      var saved = localStorage.getItem('hoet-theme');
+      var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    }catch(e){ document.documentElement.setAttribute('data-theme','dark'); }
+  })();
+</script>
+<style>
+  :root{
+    /* HOET achromatic dark theme — matched to hoet-ots.vercel.app */
+    --bg:#080808;
+    --bg-2:#0b0b0b;
+    --card:#121212;
+    --card-2:#171717;
+    --border:rgba(255,255,255,.12);
+    --border-strong:rgba(255,255,255,.18);
+    --fg:#f7f7f7;
+    --fg-soft:#e6e6e6;
+    --muted:#a3a3a3;
+    --muted-2:#737373;
+    --sky:#38bdf8;
+    --emerald:#34d399;
+    --do:#34d399;
+    --dont:#fb7185;
+    --rose:#fb7185;
+    --amber:#fbbf24;
+    --violet:#a78bfa;
+    --cyan:#22d3ee;
+    --blue:#60a5fa;
+    --indigo:#818cf8;
+    --fuchsia:#e879f9;
+    --teal:#2dd4bf;
+    --purple:#c084fc;
+    --lime:#a3e635;
+    --pink:#f472b6;
+    --yellow:#facc15;
+    --sans:'Fedra Sans Pro','FedraSansPro','Manrope','Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+    --mono:'Source Code Pro',ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace;
+    /* theme-sensitive surfaces (flip in light) */
+    --t-03:rgba(255,255,255,.03);
+    --t-05:rgba(255,255,255,.05);
+    --t-06:rgba(255,255,255,.06);
+    --t-07:rgba(255,255,255,.07);
+    --topbar:rgba(8,8,8,.72);
+    --glow:rgba(255,255,255,.028);
+    color-scheme:dark;
+  }
+  /* ── Light view mode ── */
+  :root[data-theme="light"]{
+    --bg:#fbfbfb;
+    --bg-2:#f2f2f2;
+    --card:#ffffff;
+    --card-2:#f6f6f6;
+    --border:rgba(0,0,0,.12);
+    --border-strong:rgba(0,0,0,.20);
+    --fg:#141414;
+    --fg-soft:#2e2e2e;
+    --muted:#5c5c5c;
+    --muted-2:#8a8a8a;
+    /* darker accents for contrast on white — matches HOET light mode */
+    --sky:#0284c7;
+    --emerald:#059669;
+    --do:#059669;
+    --dont:#e11d48;
+    --rose:#e11d48;
+    --amber:#b45309;
+    --violet:#7c3aed;
+    --blue:#2563eb;
+    --indigo:#4f46e5;
+    --fuchsia:#c026d3;
+    --teal:#0d9488;
+    --yellow:#ca8a04;
+    --t-03:rgba(0,0,0,.03);
+    --t-05:rgba(0,0,0,.045);
+    --t-06:rgba(0,0,0,.06);
+    --t-07:rgba(0,0,0,.05);
+    --topbar:rgba(255,255,255,.82);
+    --glow:rgba(0,0,0,.02);
+    color-scheme:light;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+  body{
+    margin:0;background:var(--bg);color:var(--fg-soft);font-family:var(--sans);
+    font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(60rem 34rem at 82% -10%,var(--glow),transparent 62%);
+    background-attachment:fixed;
+  }
+  a{color:inherit}
+  ::selection{background:rgba(56,189,248,.28)}
+
+  /* Topbar */
+  .topbar{
+    position:sticky;top:0;z-index:40;backdrop-filter:blur(12px);
+    background:var(--topbar);border-bottom:1px solid var(--border);
+  }
+  .topbar-inner{max-width:1120px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:-.01em;color:var(--fg)}
+  .brand img{height:24px;width:auto;display:block}
+  .brand .mark{height:26px;width:26px;border-radius:7px;background:linear-gradient(135deg,var(--sky),var(--emerald));display:none;align-items:center;justify-content:center;font-weight:800;color:#04111a;font-size:13px}
+  .crumb{color:var(--muted);font-size:12.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .crumb b{color:var(--fg-soft);font-weight:600}
+  .crumb .sep{opacity:.45}
+  .pill{margin-left:auto;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:5px 11px;white-space:nowrap}
+  .theme-btn{display:inline-flex;align-items:center;gap:7px;font-family:var(--sans);font-size:12px;font-weight:500;color:var(--muted);background:transparent;border:1px solid var(--border);border-radius:999px;padding:5px 12px;cursor:pointer;transition:color .15s,background .15s,border-color .15s}
+  .theme-btn:hover{color:var(--fg);background:var(--t-05);border-color:var(--border-strong)}
+  .theme-btn .ti{font-size:13px;line-height:1}
+
+  /* Layout */
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+  .hero{padding:56px 0 30px;border-bottom:1px solid var(--border)}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+  .eyebrow .bar{width:5px;height:14px;border-radius:99px;background:linear-gradient(180deg,var(--sky),var(--emerald))}
+  h1{font-size:clamp(1.95rem,4.6vw,3.05rem);line-height:1.03;letter-spacing:-.025em;font-weight:750;color:var(--fg);margin:0}
+  .lead{max-width:60ch;color:var(--muted);font-size:16px;margin:16px 0 0}
+  .chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px}
+  .chip{font-size:12.5px;color:var(--fg-soft);border:1px solid var(--border);background:var(--card);border-radius:8px;padding:7px 12px;display:inline-flex;gap:8px;align-items:center}
+  .chip .k{color:var(--muted);font-size:11px;letter-spacing:.04em;text-transform:uppercase}
+  .chip .r{font-family:var(--mono);color:var(--sky)}
+
+  .grid{display:grid;grid-template-columns:232px minmax(0,1fr);gap:44px;align-items:start;padding:34px 0 80px}
+  @media (max-width:920px){.grid{grid-template-columns:1fr;gap:0;padding-top:8px}}
+
+  /* TOC */
+  .toc{position:sticky;top:74px;align-self:start}
+  @media (max-width:920px){
+    .toc{position:static;margin:18px 0 6px;border:1px solid var(--border);border-radius:12px;background:var(--card);overflow:hidden}
+    .toc-head{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;cursor:pointer;font-weight:600;color:var(--fg);font-size:14px}
+    .toc-head .arrow{transition:transform .2s}
+    .toc.open .toc-head .arrow{transform:rotate(180deg)}
+    .toc-list{display:none;padding:4px 8px 12px}
+    .toc.open .toc-list{display:block}
+  }
+  @media (min-width:921px){.toc-head{display:none}}
+  .toc-label{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted-2);padding:0 10px 10px;font-weight:600}
+  .toc-list{display:block}
+  .toc a{display:flex;gap:9px;align-items:baseline;padding:7px 10px;border-radius:8px;color:var(--muted);font-size:13px;text-decoration:none;line-height:1.35;border-left:2px solid transparent}
+  .toc a:hover{color:var(--fg-soft);background:var(--t-03)}
+  .toc a.active{color:var(--fg);background:rgba(56,189,248,.08);border-left-color:var(--sky)}
+  .toc a .n{font-family:var(--mono);font-size:11px;color:var(--muted-2);width:16px;flex:none}
+  .toc a.active .n{color:var(--sky)}
+
+  /* Sections & cards */
+  section{scroll-margin-top:82px;margin-bottom:26px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:26px 26px 24px}
+  @media (max-width:560px){.card{padding:20px 17px}}
+  .kicker{display:flex;align-items:center;gap:10px;margin:0 0 4px}
+  .kicker .dot{width:8px;height:8px;border-radius:99px;flex:none;box-shadow:0 0 0 4px var(--t-03)}
+  .kicker .sec{font-family:var(--mono);font-size:11.5px;color:var(--muted-2);letter-spacing:.02em}
+  h2{font-size:1.42rem;line-height:1.2;letter-spacing:-.02em;color:var(--fg);font-weight:700;margin:2px 0 12px}
+  h3{font-size:.82rem;text-transform:uppercase;letter-spacing:.09em;color:var(--fg-soft);font-weight:650;margin:22px 0 9px}
+  p{margin:0 0 12px}
+  .card > p:last-child,.card > ul:last-child{margin-bottom:0}
+  strong{color:var(--fg);font-weight:640}
+  code{font-family:var(--mono);font-size:.86em;background:var(--t-07);border:1px solid var(--border);border-radius:5px;padding:1px 6px;color:var(--fg)}
+  .muted{color:var(--muted)}
+
+  ul.clean{list-style:none;padding:0;margin:0}
+  ul.clean li{position:relative;padding:6px 0 6px 24px;border-bottom:1px solid var(--t-05)}
+  ul.clean li:last-child{border-bottom:0}
+  ul.clean li::before{content:"";position:absolute;left:4px;top:14px;width:6px;height:6px;border-radius:99px;background:var(--sky)}
+  ul.check li::before{content:"✓";background:none;left:2px;top:6px;width:auto;height:auto;color:var(--emerald);font-weight:700;font-size:13px}
+
+  /* Pipeline (workflow) */
+  .flow{list-style:none;margin:6px 0 0;padding:0;counter-reset:step}
+  .flow li{position:relative;padding:0 0 22px 46px;counter-increment:step}
+  .flow li:last-child{padding-bottom:0}
+  .flow li::before{
+    content:counter(step);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:9px;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#04111a;
+    background:linear-gradient(135deg,var(--sky),var(--emerald));font-family:var(--mono)
+  }
+  .flow li::after{content:"";position:absolute;left:14px;top:34px;bottom:6px;width:2px;background:linear-gradient(180deg,rgba(56,189,248,.5),rgba(52,211,153,.12))}
+  .flow li:last-child::after{display:none}
+  .flow .st{font-weight:640;color:var(--fg);display:block;margin-bottom:3px;font-size:15px}
+  .flow .sd{color:var(--muted);font-size:14px}
+
+  /* Do / Don't table */
+  .dd{width:100%;border-collapse:collapse;margin-top:10px;font-size:13.5px}
+  .dd th{text-align:left;font-weight:640;padding:9px 12px;border-bottom:1px solid var(--border-strong);vertical-align:bottom}
+  .dd th.do{color:var(--do)}.dd th.no{color:var(--dont)}
+  .dd td{padding:11px 12px;border-bottom:1px solid var(--t-06);vertical-align:top;color:var(--fg-soft);width:50%}
+  .dd td.do{border-left:2px solid rgba(52,211,153,.4)}
+  .dd td.no{border-left:2px solid rgba(251,113,133,.35)}
+  .dd tr:last-child td{border-bottom:0}
+  .tscroll{overflow-x:auto}
+  @media (max-width:560px){.dd,.dd tbody,.dd tr,.dd td,.dd th{display:block;width:100%}.dd th.no,.dd td.no{margin-top:2px}.dd thead{position:absolute;left:-9999px}.dd td::before{content:attr(data-l);display:block;font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}.dd td.do::before{color:var(--do)}.dd td.no::before{color:var(--dont)}}
+
+  /* Callouts */
+  .callout{border:1px solid var(--border);border-left:3px solid var(--sky);background:linear-gradient(90deg,rgba(56,189,248,.07),rgba(56,189,248,0) 60%);border-radius:10px;padding:15px 17px;margin:16px 0 0}
+  .callout.rule{border-left-color:var(--rose);background:linear-gradient(90deg,rgba(251,113,133,.08),rgba(251,113,133,0) 60%)}
+  .callout.amber{border-left-color:var(--amber);background:linear-gradient(90deg,rgba(251,191,36,.08),rgba(251,191,36,0) 60%)}
+  .callout .ct{font-weight:650;color:var(--fg);font-size:13px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;display:flex;align-items:center;gap:8px}
+  .callout.rule .ct{color:#ffb3bf}
+  .callout p{margin:0;font-size:14px;color:var(--fg-soft)}
+  .callout p + p{margin-top:8px}
+
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+  @media (max-width:560px){.two{grid-template-columns:1fr}}
+  .box{border:1px solid var(--border);border-radius:11px;padding:15px 16px;background:var(--card-2)}
+  .box h4{margin:0 0 8px;font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--fg)}
+  .box.use h4{color:var(--do)} .box.avoid h4{color:var(--dont)}
+  .box ul{margin:0;padding-left:17px} .box li{margin:3px 0;color:var(--fg-soft);font-size:13.5px}
+  .box.use{border-color:rgba(52,211,153,.22)} .box.avoid{border-color:rgba(251,113,133,.2)}
+
+  pre.name{font-family:var(--mono);font-size:13px;background:var(--t-05);border:1px solid var(--border-strong);border-radius:9px;padding:12px 14px;overflow-x:auto;color:var(--fg);margin:8px 0 4px}
+  .ex{font-family:var(--mono);font-size:12.5px;color:var(--sky);margin:4px 0 0}
+
+  .spec{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px}
+  .spec th,.spec td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--t-07)}
+  .spec th{color:var(--muted);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em}
+  .spec td:first-child{color:var(--fg);font-weight:600;white-space:nowrap}
+  .spec td .v{font-family:var(--mono);color:var(--sky)}
+  .spec tr:last-child td{border-bottom:0}
+
+  /* Multi-cam split layout with tutorial video */
+  .mc-split{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:26px;align-items:start}
+  @media (max-width:820px){.mc-split{grid-template-columns:1fr;gap:20px}}
+  .mc-video{position:sticky;top:88px}
+  @media (max-width:820px){.mc-video{position:static}}
+  .mc-video .vt{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted-2);font-weight:600;margin:0 0 9px;display:flex;align-items:center;gap:7px}
+  .mc-video .vt .pin{width:6px;height:6px;border-radius:99px;background:var(--violet)}
+  .vframe{position:relative;width:100%;aspect-ratio:16/9;border-radius:11px;overflow:hidden;border:1px solid var(--border-strong);background:#000}
+  .vframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .mc-video .vcap{font-size:12px;color:var(--muted);margin:9px 0 0;line-height:1.5}
+  .mc-video .vcap a{color:var(--sky);text-decoration:none}
+  .mc-video .vcap a:hover{text-decoration:underline}
+
+  /* Typography reference — video type system */
+  .type-spec{border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-top:12px;background:var(--card-2)}
+  .ts-row{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:center;padding:16px 18px;border-bottom:1px solid var(--border)}
+  .ts-row:last-child{border-bottom:0}
+  @media (max-width:560px){.ts-row{grid-template-columns:1fr;gap:8px;padding:14px 15px}}
+  .ts-meta .role{display:block;font-size:12px;font-weight:600;color:var(--fg)}
+  .ts-meta .font{display:block;font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:2px}
+  .ts-sample{min-width:0}
+  .ts-title{font-family:'Oswald',var(--sans);font-weight:700;text-transform:uppercase;letter-spacing:.01em;font-size:clamp(1.4rem,3.4vw,2rem);line-height:1;color:var(--fg)}
+  .ts-lower{line-height:1.2}
+  .ts-lower .nm{font-family:'Manrope',var(--sans);font-weight:700;font-size:1.15rem;color:var(--fg);letter-spacing:-.01em}
+  .ts-lower .ti{font-family:'Manrope',var(--sans);font-weight:500;font-size:.82rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+  .ts-super{font-family:'Poppins',var(--sans);font-weight:600;font-size:1.05rem;color:var(--fg-soft)}
+  .ts-super b{color:var(--amber);font-weight:700}
+  .ts-cap{display:inline-block;font-family:'Manrope',var(--sans);font-weight:600;font-size:1rem;color:#0a0a0a;background:#fff;padding:5px 12px;border-radius:7px;letter-spacing:.01em;border:1px solid var(--border-strong)}
+
+  /* Section reference banner */
+  .sec-ref{margin:0 0 18px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--card-2)}
+  .sec-ref img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+  .sec-ref figcaption{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding:8px 12px;border-top:1px solid var(--border);display:flex;gap:9px;align-items:center}
+  .sec-ref figcaption .tag{color:var(--sky);flex:none}
+  .sec-ref.vert{max-width:270px;margin-left:auto;margin-right:auto}
+  .sec-ref.vert img{aspect-ratio:9/16}
+  .type-frame{margin-top:14px;border:1px solid var(--border);border-radius:11px;overflow:hidden;background:var(--card-2)}
+  .type-frame img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+  .type-frame figcaption{font-size:12px;color:var(--muted);padding:9px 13px;border-top:1px solid var(--border)}
+  .type-frame figcaption b{color:var(--fg-soft);font-weight:600}
+
+  /* Per-guest look — reference gallery */
+  .look-gallery{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:auto auto;gap:12px;margin-top:18px}
+  @media (max-width:640px){.look-gallery{grid-template-columns:1fr 1fr;grid-template-rows:auto}}
+  .look-gallery figure{margin:0;border:1px solid var(--border);border-radius:11px;overflow:hidden;background:var(--card-2)}
+  .look-gallery .g-wide{grid-column:1}
+  .look-gallery .g-tall{grid-column:2;grid-row:1 / span 2}
+  @media (max-width:640px){.look-gallery .g-wide{grid-column:1 / -1}.look-gallery .g-tall{grid-column:1 / -1;grid-row:auto}}
+  .look-gallery img{display:block;width:100%;height:100%;object-fit:cover}
+  .look-gallery .g-wide img{aspect-ratio:16/9}
+  .look-gallery .g-tall img{aspect-ratio:9/16}
+  .look-gallery figcaption{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:7px 10px;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:8px}
+  .look-gallery figcaption .r{color:var(--sky)}
+
+  footer{border-top:1px solid var(--border);padding:26px 0 60px;color:var(--muted-2);font-size:12.5px}
+  footer a{color:var(--muted);text-decoration:underline;text-underline-offset:2px}
+  .src{margin-top:6px}
+
+  :focus-visible{outline:2px solid var(--sky);outline-offset:2px;border-radius:4px}
+  body.loaded .card{animation:rise .5s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="https://hoet-ots.vercel.app/" target="_blank" rel="noreferrer" aria-label="House of EdTech home">
+      <img src="https://hoet-ots.vercel.app/assets/hoet-logo-o8SVQ-b2.png" alt="House of EdTech" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <span class="mark">H</span>
+    </a>
+    <div class="crumb">
+      <b>Editing</b><span class="sep">·</span>Podcast Video<span class="sep">·</span>Multi-Cam SOP
+    </div>
+    <span class="pill">Internal Use Only</span>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle light and dark mode">
+      <span class="ti" aria-hidden="true">☾</span><span class="tl">Dark</span>
+    </button>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="eyebrow"><span class="bar"></span>Podcast Video · Multi-Cam Edit · v1.0</div>
+    <h1>Podcast Video — Editing SOP</h1>
+    <p class="lead">How every House of EdTech podcast is cut. Shot multi-cam, delivered with video and audio separate. The editor syncs it, checks it, edits it in a true multi-cam sequence, and ships a long-form, a teaser, and three to five shorts — one consistent look per guest, a classical premium edit, no reel-style chop.</p>
+    <div class="chips">
+      <span class="chip"><span class="k">Long-form</span><span class="r">16 : 9</span></span>
+      <span class="chip"><span class="k">Teaser</span><span class="r">16 : 9</span></span>
+      <span class="chip"><span class="k">Shorts × 3–5</span><span class="r">9 : 16</span></span>
+      <span class="chip"><span class="k">Setup</span>Multi-cam · mandatory</span>
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- ============ TOC ============ -->
+    <nav class="toc" id="toc" aria-label="On this page">
+      <div class="toc-head" id="tocHead">On this page <span class="arrow">▾</span></div>
+      <div class="toc-label">On this page</div>
+      <div class="toc-list">
+        <a href="#scope"><span class="n">01</span> Scope &amp; Deliverables</a>
+        <a href="#intake"><span class="n">02</span> Before You Start — Intake &amp; Sync</a>
+        <a href="#multicam"><span class="n">03</span> Multi-Cam Setup (Mandatory)</a>
+        <a href="#look"><span class="n">04</span> Per-Guest Look System</a>
+        <a href="#longform"><span class="n">05</span> Long-Form Edit Standards</a>
+        <a href="#teaser"><span class="n">06</span> Teaser</a>
+        <a href="#shorts"><span class="n">07</span> Short-Form (9 : 16)</a>
+        <a href="#audio"><span class="n">08</span> Audio &amp; SFX Balance</a>
+        <a href="#universal"><span class="n">09</span> Universal On-Screen Rules</a>
+        <a href="#qa"><span class="n">10</span> Pre-Delivery QA</a>
+        <a href="#delivery"><span class="n">11</span> Naming, Backup &amp; Accountability</a>
+      </div>
+    </nav>
+
+    <!-- ============ CONTENT ============ -->
+    <main>
+
+      <!-- 01 -->
+      <section id="scope">
+        <div class="card">
+          <div class="kicker"><span class="dot" style="background:var(--sky)"></span><span class="sec">01 · Scope</span></div>
+          <h2>Scope &amp; Deliverables</h2>
+          <figure class="sec-ref">
+            <img src="assets/img/sec-scope.png" alt="One podcast episode delivered as a 16:9 long-form, a 16:9 teaser and a 9:16 short" loading="lazy" />
+            <figcaption><span class="tag">REF</span> One episode → three outputs: long-form, teaser, shorts</figcaption>
+          </figure>
+          <p>This SOP covers editing a full podcast episode from raw multi-cam footage to final delivery. Podcasts are always captured on multiple cameras, and the editor receives the <strong>video and audio as separate files</strong>. From one approved long-form edit, the editor produces the full deliverable set below.</p>
+          <div class="tscroll">
+          <table class="spec">
+            <thead><tr><th>Deliverable</th><th>Ratio</th><th>Built from</th><th>Ends with</th></tr></thead>
+            <tbody>
+              <tr><td>Long-form episode</td><td><span class="v">16 : 9</span></td><td>Multi-cam sequence · opens with ≤90s trailer</td><td>Standard outro</td></tr>
+              <tr><td>Teaser</td><td><span class="v">16 : 9</span></td><td>Long-form highlights</td><td>Hook to full episode</td></tr>
+              <tr><td>Shorts (3–5)</td><td><span class="v">9 : 16</span></td><td>Pod-manager script</td><td>CTA to long-form</td></tr>
+            </tbody>
+          </table>
+          </div>
+          <div class="callout">
+            <div class="ct">Sequence of work</div>
+            <p>Finish and get sign-off on the <strong>long-form first</strong>. Only then cut the teaser and the shorts — they inherit the long-form's grade, typography and asset style so the whole set feels like one release.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 -->
+      <section id="intake">
+        <div class="card">
+          <div class="kicker"><span class="dot" style="background:var(--emerald)"></span><span class="sec">02 · Pre-Edit</span></div>
+          <h2>Before You Start — Intake &amp; Sync</h2>
+          <figure class="sec-ref">
+            <img src="assets/img/sec-intake.png" alt="Editing timeline showing multiple synced camera angles stacked over an aligned audio waveform" loading="lazy" />
+            <figcaption><span class="tag">REF</span> All angles synced to one audio waveform before any cutting</figcaption>
+          </figure>
+          <p>Nothing gets cut until the material is complete, correct and in sync. Work through these five steps in order.</p>
+          <ul class="flow">
+            <li><span class="st">Get the guest brief from the producer</span><span class="sd">Guest name, title and company, name pronunciation, the topics covered, any sponsor or brand mentions, and anything not to use (off-record moments, retakes, corrections). You cannot title, super or caption the episode correctly without this.</span></li>
+            <li><span class="st">Collect all footage — every angle, plus audio</span><span class="sd">Confirm you have every camera angle (video) and the recorded audio, delivered as separate files. Check nothing is missing before you build anything.</span></li>
+            <li><span class="st">Sync audio to video across all angles</span><span class="sd">Align the clean audio to every camera so all angles share one timeline. Use waveform or timecode sync — never eyeball it.</span></li>
+            <li><span class="st">Run the quality check</span><span class="sd">Sync accuracy on every angle, audio integrity (no dropouts, hum, distortion), clip completeness, corrupt or missing files, and coverage gaps where an angle is unusable.</span></li>
+            <li><span class="st">Flag issues before editing — not after</span><span class="sd">If anything is off — missing angle, out-of-sync audio, corrupt clip, unusable coverage — raise it with the <strong>producer or the team manager</strong> and get it resolved before you start. Do not begin editing on faulty or incomplete media and try to patch it later.</span></li>
+          </ul>
+          <div class="callout rule">
+            <div class="ct">⚠ Escalate, don't improvise</div>
+            <p>A sync or media problem caught before the edit costs minutes. Caught after the edit, it costs the whole cut. When in doubt, message the producer or team manager first.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 -->
+      <section id="multicam">
+        <div class="card">
+          <div class="kicker"><span class="dot" style="background:var(--violet)"></span><span class="sec">03 · Setup</span></div>
+          <h2>Multi-Cam Setup (Mandatory)</h2>
+          <figure class="sec-ref">
+            <img src="assets/img/sec-multicam.png" alt="Three-camera podcast setup: two close-ups and one wide combined two-shot" loading="lazy" />
+            <figcaption><span class="tag">REF</span> Typical 3-camera podcast — two close-ups (CAM A / CAM B) + one wide two-shot</figcaption>
+          </figure>
+          <div class="mc-split">
+            <div>
+              <p>Podcasts are shot on <strong>three cameras — usually two close-ups (one on each speaker) and one wide combined two-shot</strong>. All three angles are edited as a true multi-cam sequence in your editing software — Premiere Pro <span class="muted">(Multi-Camera Source Sequence)</span>, DaVinci Resolve <span class="muted">(Multicam Clip)</span>, or Final Cut Pro <span class="muted">(Multicam Clip)</span>. You cut angles live against a single synced timeline.</p>
+              <p class="muted" style="font-size:13.5px">Rhythm: open on the wide to establish the room, live on the close-up of whoever's speaking, and cut to the other close-up on reactions and turns. The wide is your reset and your safety angle.</p>
+              <div class="callout rule">
+                <div class="ct">✕ Manual angle-cutting is not allowed</div>
+                <p>Even if you are only comfortable stacking and hand-cutting clips, that approach is <strong>not permitted</strong> for podcasts. Manual editing loses sync integrity, breaks the front-then-cross-angle rhythm, and makes revisions painful. Use the multi-cam feature.</p>
+                <p>If you don't have prior multi-cam experience, <strong>reach the pod manager before starting.</strong> Get set up or supported — do not fall back to manual editing.</p>
+              </div>
+              <div class="tscroll">
+              <table class="dd">
+                <thead><tr><th class="do">✓ Do's</th><th class="no">✕ Don'ts</th></tr></thead>
+                <tbody>
+                  <tr><td class="do" data-l="Do">Build one synced multi-cam sequence and switch angles live.</td><td class="no" data-l="Don't">Don't stack angles on separate tracks and hand-cut between them.</td></tr>
+                  <tr><td class="do" data-l="Do">Establish on the wide, live on the speaker's close-up, cut to the other close-up on reactions.</td><td class="no" data-l="Don't">Don't hold one static angle — or sit on the wide — for the whole conversation.</td></tr>
+                  <tr><td class="do" data-l="Do">Ask the pod manager for help if multi-cam is new to you.</td><td class="no" data-l="Don't">Don't quietly switch to manual editing because it's familiar.</td></tr>
+                </tbody>
+              </table>
+              </div>
+            </div>
+            <aside class="mc-video">
+              <p class="vt"><span class="pin"></span>Watch — Multi-Cam Tutorial</p>
+              <div class="vframe">
+                <iframe src="https://www.youtube-nocookie.com/embed/BoGWVOZiKc0" title="Multi-cam editing tutorial" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+              </div>
+              <p class="vcap">Reference walkthrough for building and cutting a synced multi-cam sequence. <a href="https://www.youtube.com/watch?v=BoGWVOZiKc0" target="_blank" rel="noreferrer">Open on YouTube ↗</a></p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 -->
+      <section id="look">
+        <div class="card">
+          <div class="kicker"><span class="dot" style="background:var(--teal)"></span><span class="sec">04 · Consistency</span></div>
+          <h2>Per-Guest Look System</h2>
+          <p>Each guest gets <strong>one consistent visual identity</strong>, applied uniformly across that episode's long-form, teaser and shorts. Lock these once at the start of the episode and reuse them everywhere.</p>
+          <ul class="clean">
+            <li><strong>Typography</strong> — one type system for the whole episode: name lower-thirds, supers, captions and titles. Same fonts, weights and treatment on long-form, teaser and shorts.</li>
+            <li><strong>Colour theme</strong> — one grade plus one accent/graphic palette per guest, carried through all deliverables.</li>
+            <li><strong>Assets</strong> — lower-thirds, super styles, transition set and motif stay identical across the set.</li>
+          </ul>
+
+          <h3>Typography reference — the video type system</h3>
+          <p>These are the on-screen text roles every episode uses. Lock one font per role at the start and reuse it across the long-form, teaser and shorts. The samples below are a reference for how each role should read — confirm the exact fonts with the pod manager / <a href="https://hoet-ots.vercel.app/brand-guidelines" target="_blank" rel="noreferrer" style="color:var(--sky)">Brand Guidelines</a>.</p>
+          <div class="type-spec">
+            <div class="ts-row">
+              <div class="ts-meta"><span class="role">Title / Thumbnail</span><span class="font">Oswald · 700</span></div>
+              <div class="ts-sample"><div class="ts-title">The Future of EdTech</div></div>
+            </div>
+            <div class="ts-row">
+              <div class="ts-meta"><span class="role">Name lower-third</span><span class="font">Manrope · 700 / 500</span></div>
+              <div class="ts-sample"><div class="ts-lower"><div class="nm">Ravi Kumar</div><div class="ti">Founder &amp; CEO · EduSpark</div></div></div>
+            </div>
+            <div class="ts-row">
+              <div class="ts-meta"><span class="role">Keyword super</span><span class="font">Poppins · 600</span></div>
+              <div class="ts-sample"><div class="ts-super">Scaling to <b>1 million</b> learners</div></div>
+            </div>
+            <div class="ts-row">
+              <div class="ts-meta"><span class="role">Caption (shorts)</span><span class="font">Manrope · 600 · ~16 chars</span></div>
+              <div class="ts-sample"><span class="ts-cap">this changed it</span></div>
+            </div>
+          </div>
+          <figure class="type-frame">
+            <img src="assets/img/sec-type-frame.png" alt="Podcast frame with the name lower-third and keyword super burned in as they appear on air" loading="lazy" />
+            <figcaption>The type roles <b>in context</b> — the name lower-third and keyword super as they sit on an actual 16:9 frame.</figcaption>
+          </figure>
+          <div class="callout amber">
+            <div class="ct">Type discipline</div>
+            <p>One font per role, one weight ladder, one accent colour for the highlighted keyword — held identical from the long-form through to every short. The full on-screen text rules live in <a href="https://hoet-ots.vercel.app/editing-guidelines" target="_blank" rel="noreferrer" style="color:var(--sky)">Universal On-Screen Rules</a> (§09).</p>
+          </div>
+
+          <div class="look-gallery">
+            <figure class="g-wide">
+              <img src="assets/img/pod-longform-1609.png" alt="Long-form podcast frame — wide multi-cam studio two-shot" loading="lazy" />
+              <figcaption><span>Long-form · full episode</span><span class="r">16 : 9</span></figcaption>
+            </figure>
+            <figure class="g-wide">
+              <img src="assets/img/pod-teaser-1609.png" alt="Teaser frame — cross-angle two-shot from the same studio" loading="lazy" />
+              <figcaption><span>Teaser · same grade &amp; type</span><span class="r">16 : 9</span></figcaption>
+            </figure>
+            <figure class="g-tall">
+              <img src="assets/img/pod-short-0916.png" alt="Vertical short frame — single speaker reframed from the multi-cam source" loading="lazy" />
+              <figcaption><span>Short</span><span class="r">9 : 16</span></figcaption>
+            </figure>
+          </div>
+          <p class="muted" style="font-size:12.5px;margin:10px 0 0">One guest, one visual system — the same set, grade and type carried from the long-form through the teaser and into every vertical short.</p>
+
+          <div class="callout">
+            <div class="ct">One episode, one system</div>
+            <p>Different guests can look different from each other. Within a single guest's episode, the long-form, teaser and every short must be visually uniform.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 -->
+      <section id="longform">
+        <div class="card">
+          <div class="kicker"><span class="dot" style="background:var(--blue)"></span><span class="sec">05 · Long-Form</span></div>
+          <h2>Long-Form Edit Standards</h2>
+          <figure class="sec-ref">
+            <img src="assets/img/sec-longform.png" alt="Calm premium wide two-shot of two podcast hosts in conversation" loading="lazy" />
+            <figcaption><span class="tag">REF</span> The long-form feel — calm, premium, the room and the exchange</figcaption>
+          </figure>
+          <p>The long-form is a <strong>classical, premium conversation edit</strong> — 16 : 9, calm, and confident. It is not a reel. The viewer should feel the room and the exchange, not the editor.</p>
+
+          <div class="callout rule">
+            <div class="ct">No captions on the full podcast</div>
+            <p>The long-form runs <strong>without spoken-word captions/subtitles</strong> — it's a clean conversation edit. Keyword supers and lower-thirds in the opening trailer are fine; the running caption track is a shorts-only element.</p>
+          </div>
+
+          <h3>Cold-open trailer (≤ 90 seconds)</h3>
+          <p>Every episode opens with a <strong>highlight trailer at the very start</strong>, before the intro proper. Cut it from the strongest keyword moments in the conversation to hook the viewer in the first frame.</p>
+          <ul class="clean">
+            <li>Build it from the episode's <strong>keywords and standout lines</strong> — the sharpest hooks, claims and payoffs pulled from across the talk.</li>
+            <li>Keep it to a <strong>maximum of 90 seconds</strong>; shorter is fine if the moments are strong. Momentum-driven, but still premium and on-brand — not a frantic reel.</li>
+            <li>Keyword supers are welcome to punch the key lines; no running caption track.</li>
+            <li>Music and light SFX can lift the trailer's energy, then settle into the intro bed as the conversation begins.</li>
+            <li>Land cleanly into the standard intro / first beat of the conversation — no hard jolt.</li>
+          </ul>
+
+          <h3>Cutting &amp; pacing</h3>
+          <ul class="clean">
+            <li>Cut on natural conversational beats — angle changes on speaker turns, reactions and shifts in energy.</li>
+            <li>Keep cuts smooth and motivated. <strong>No random jump cuts</strong>, no rapid reel-style chopping, no cutting mid-thought for pace.</li>
+            <li>Trim genuine dead air, long stumbles and false starts, but preserve the natural rhythm of the talk. Tighten, don't chop.</li>
+          </ul>
+
+          <h3>Colour</h3>
+          <ul class="clean">
+            <li>Proper colour correction across every angle so all cameras match — consistent exposure, white balance and skin tone.</li>
+            <li>One colour grade for the episode, tied to that guest's look (see <a href="#look" style="color:var(--sky)">Per-Guest Look</a>).</li>
+          </ul>
+
+          <h3>Music &amp; SFX in long-form</h3>
+          <div class="two">
+            <div class="box use"><h4>Allowed</h4><ul>
+              <li>Intro / outro bed at a low level.</li>
+              <li>Music <strong>only</strong> under a B-roll or story sequence where it genuinely lifts the moment.</li>
+              <li>Minimal, sparse SFX for a light UI or graphic accent.</li>
+            </ul></div>
+            <div class="box avoid"><h4>Not in long-form</h4><ul>
+              <li>No background music running under the conversation.</li>
+              <li>No dominant or attention-grabbing SFX.</li>
+              <li>Nothing that competes with the voices.</li>
+            </ul></div>
+          </div>
+          <div class="callout amber">
+            <div class="ct">The feel</div>
+            <p>Keep SFX minimal so the edit stays smooth and premium. In the long-form the voices lead; everything else stays quiet and out of the way.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 -->
+      <section id="teaser">
+        <div class="card">
+          <div class="kicker"><span class="dot" style="background:var(--amber)"></span><span class="sec">06 · Teaser</span></div>
+          <h2>Teaser</h2>
+          <figure class="sec-ref">
+            <img src="assets/img/sec-teaser.png" alt="Teaser title card with bold episode title over the studio" loading="lazy" />
+            <figcaption><span class="tag">REF</span> Teaser energy — a bold title moment cut from the long-form</figcaption>
+          </figure>
+          <p>A short 16 : 9 cut that sells the episode. Built entirely from the finished long-form, so it carries the same grade, typography and look.</p>
+          <ul class="clean">
+            <li>Open on the strongest moment — the sharpest line, hook or payoff from the conversation.</li>
+            <li>Keep it tight and momentum-driven, but still on-brand — not a frantic reel.</li>
+            <li>Music is welcome here to build energy; keep any SFX supportive, not loud.</li>
+            <li>End on a clear hook or CTA pointing to the full episode.</li>
+          </ul>
+          <div class="callout">
+            <div class="ct">Sets the template</div>
+            <p>The teaser and the long-form together define the visual template — grade, fonts, lower-thirds, motif. The shorts are then matched to them.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 07 -->
+      <section id="shorts">
+        <div class="card">
+          <div class="kicker"><span class="dot" style="background:var(--fuchsia)"></span><span class="sec">07 · Shorts</span></div>
+          <h2>Short-Form (9 : 16)</h2>
+          <figure class="sec-ref vert">
+            <img src="assets/img/sec-shorts.png" alt="Vertical short with a bold single-line caption and a CTA at the bottom" loading="lazy" />
+            <figcaption><span class="tag">REF</span> 9 : 16 · caption + CTA</figcaption>
+          </figure>
+          <p>Three to five vertical shorts per episode, each a self-contained moment that ends by driving viewers to the long-form.</p>
+
+          <div class="callout rule">
+            <div class="ct">How shorts are assigned</div>
+            <p>The <strong>pod manager provides a proper script from the transcript</strong> for each short when assigning it — the exact segment, in/out points and the beat to lead with.</p>
+            <p>The pod manager does <strong>not</strong> simply hand over the project file and tell the editor to "make some shorts from it." Every short is briefed with a script. If a short is assigned without one, ask the pod manager for it before starting.</p>
+          </div>
+
+          <h3>Build rules</h3>
+          <ul class="clean">
+            <li>Cut to the assigned script — don't invent or restructure the moment.</li>
+            <li>Reframe from the multi-cam source to a clean 9 : 16 with the speaker well-composed and inside the safe zone.</li>
+            <li>Match the teaser and long-form: same typography, caption style, colour theme and asset style. The set must look like one release.</li>
+            <li>Captions on — single line, ~16 characters, synced to the voice (see <a href="#universal" style="color:var(--sky)">Universal Rules</a>).</li>
+            <li><strong>Every short ends with a CTA to the long-form</strong> — a clear on-screen and, where scripted, verbal push to watch the full episode.</li>
+          </ul>
+          <div class="tscroll">
+          <table class="dd">
+            <thead><tr><th class="do">✓ Do's</th><th class="no">✕ Don'ts</th></tr></thead>
+            <tbody>
+              <tr><td class="do" data-l="Do">Work from the pod manager's script and stated in/out points.</td><td class="no" data-l="Don't">Don't guess the segment or freestyle shorts from the raw file.</td></tr>
+              <tr><td class="do" data-l="Do">Carry the episode's fonts, colour and caption style into every short.</td><td class="no" data-l="Don't">Don't give shorts a different look from the teaser and long-form.</td></tr>
+              <tr><td class="do" data-l="Do">Close on a CTA to the full long-form episode.</td><td class="no" data-l="Don't">Don't end a short cold with no route back to the episode.</td></tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 08 -->
+      <section id="audio">
+        <div class="card">
+          <div class="kicker"><span class="dot" style="background:var(--amber)"></span><span class="sec">08 · Audio</span></div>
+          <h2>Audio &amp; SFX Balance</h2>
+          <figure class="sec-ref">
+            <img src="assets/img/sec-audio.png" alt="Audio mixing desk with voice waveforms, level meters and headphones" loading="lazy" />
+            <figcaption><span class="tag">REF</span> Voices lead — mix to the targets below, master never clips</figcaption>
+          </figure>
+          <p>The conversation is the product. Mix so the voices lead and everything else supports — clean, balanced and on-spec for delivery.</p>
+          <div class="tscroll">
+          <table class="spec">
+            <thead><tr><th>Setting</th><th>Target</th></tr></thead>
+            <tbody>
+              <tr><td>Voice / dialogue peaks</td><td><span class="v">-5 dB to -2 dB</span></td></tr>
+              <tr><td>Programme loudness</td><td><span class="v">-14 LUFS</span></td></tr>
+              <tr><td>Master ceiling</td><td>Never clip at <span class="v">0 dB</span> — keep headroom</td></tr>
+              <tr><td>Music / SFX under voices</td><td>Duck <span class="v">6–12 dB</span> below the voice</td></tr>
+            </tbody>
+          </table>
+          </div>
+          <ul class="clean" style="margin-top:14px">
+            <li>Keep voice level consistent across every cut — no jumps between angles or scenes.</li>
+            <li>Long-form: no music under the talk; bring beds up only in the intro, outro and B-roll story moments.</li>
+            <li>SFX stay minimal and intentional — supporting the edit, never dominating it.</li>
+            <li>Use premium-licensed music and SFX only (Envato as the primary source) — never copyrighted, ripped or trending social audio. Save a licence for every asset.</li>
+            <li>Clean up hum, clicks and dead air; add short fades in and out — never hard-cut audio.</li>
+            <li>Final pass on both headphones and speakers to confirm the voices are clear and nothing peaks past range.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 09 -->
+      <section id="universal">
+        <div class="card">
+          <div class="kicker"><span class="dot" style="background:var(--indigo)"></span><span class="sec">09 · Universal</span></div>
+          <h2>Universal On-Screen Rules</h2>
+          <figure class="sec-ref">
+            <img src="assets/img/sec-universal.png" alt="Frame with safe-zone guides, a caption low in frame and a keyword super at top" loading="lazy" />
+            <figcaption><span class="tag">REF</span> Safe zone, caption placement and super — inside the guides</figcaption>
+          </figure>
+          <p>The House of EdTech <a href="https://hoet-ots.vercel.app/editing-guidelines" target="_blank" rel="noreferrer" style="color:var(--sky)">Editing Guidelines</a> apply to podcasts too — but the two output formats are treated differently on screen. Read this section against whichever format you're cutting.</p>
+
+          <div class="two">
+            <div class="box use"><h4>① Long-form — 16 : 9 (horizontal)</h4><ul>
+              <li>The full episode and the teaser. A clean, premium conversation frame.</li>
+              <li><strong>No running captions/subtitles</strong> — the talk plays uncaptioned.</li>
+              <li>Text on screen is limited to <strong>keyword supers and lower-thirds</strong> — the guest's name/title, and keyword punches in the opening trailer.</li>
+              <li>Safe zone: keep text, logos and faces clear of the <strong>YouTube player UI</strong> (bottom bar, top-right, end-screen zone).</li>
+            </ul></div>
+            <div class="box avoid" style="border-color:rgba(56,189,248,.22)"><h4>② Short-form — 9 : 16 (vertical)</h4><ul>
+              <li>The 3–5 shorts. Reframed vertical, made to hold attention on a phone.</li>
+              <li><strong>Running captions are required</strong> — single-line, ~16 characters, synced to the voice, on throughout.</li>
+              <li>Speaker well-composed and centred in the vertical frame.</li>
+              <li>Safe zone: keep everything clear of <strong>platform buttons</strong> (right-side action rail, bottom caption/handle area) on Shorts / Reels / TikTok.</li>
+            </ul></div>
+          </div>
+
+          <h3>Captions &amp; supers</h3>
+          <ul class="clean">
+            <li><strong>Long-form:</strong> no spoken-word caption track. Use only keyword supers and the name lower-third — never a full running subtitle.</li>
+            <li><strong>Short-form:</strong> captions on throughout — single-line, around <strong>16 characters</strong>, synced to the voice.</li>
+            <li>Never split names, word-pairs (like <em>machine learning</em>) or a number from its unit across captions or supers.</li>
+            <li>Captions sit low in the safe zone, centred; on a split frame, just above the centre line.</li>
+            <li>Supers top or bottom, up to two lines, never overlapping captions; bold only the key keyword in a contrasting colour.</li>
+          </ul>
+
+          <h3>Symbols, safe zones &amp; icons</h3>
+          <ul class="clean">
+            <li>Use <code>₹</code> for rupees and keep every number with its unit — <code>₹999</code>, <code>25 fps</code>. Never write <em>Rs.</em> or <em>999/-</em>.</li>
+            <li>Keep all text, logos and faces inside the safe zone for the ratio — 16 : 9 clear of YouTube UI, 9 : 16 clear of platform buttons.</li>
+            <li>One consistent icon style across the video (outline, filled or gradient) — source from Flaticon. No mixed, hand-drawn or flat icons.</li>
+          </ul>
+
+          <h3>Logo, B-roll &amp; transitions</h3>
+          <ul class="clean">
+            <li>Supplied logo asset only, at constant size and opacity; reveal at the brand mention and the CTA — don't leave it on screen throughout.</li>
+            <li>B-roll must reinforce the moment. Real, relevant material only — no filler clips.</li>
+            <li>Transitions are motivated, not decorative: clean cuts on the beat, match cuts, quick cross-dissolves. Avoid glitch, wipe, 3D spins and a different transition every cut.</li>
+          </ul>
+
+          <h3>AI-generated assets</h3>
+          <ul class="clean">
+            <li>Prefer real footage; use AI visuals only where no real asset exists and it supports the script.</li>
+            <li>Regenerate any avatar, image or clip that looks off, uncanny or out of sync before it reaches the cut.</li>
+            <li>Match AI visuals to the episode grade and typography; use licensed voices only; proofread every fact, name and price.</li>
+            <li>Save the prompt, source and licence for every AI asset in the project's licences folder.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 10 -->
+      <section id="qa">
+        <div class="card">
+          <div class="kicker"><span class="dot" style="background:var(--emerald)"></span><span class="sec">10 · QA</span></div>
+          <h2>Pre-Delivery QA</h2>
+          <figure class="sec-ref">
+            <img src="assets/img/sec-qa.png" alt="Editor reviewing a podcast edit on a monitor with a QA checklist overlay" loading="lazy" />
+            <figcaption><span class="tag">REF</span> Run every deliverable against the checklist before export</figcaption>
+          </figure>
+          <p>The first cut you send for review should already be publish-ready. Run every deliverable against this before exporting — if an item fails, it isn't ready.</p>
+          <ul class="clean check">
+            <li>Multi-cam sync holds across the whole timeline; front-then-cross-angle rhythm is present.</li>
+            <li>Colour matched across all angles; one grade applied for the guest.</li>
+            <li>Long-form is a smooth classical edit — no random jump cuts, no reel chopping.</li>
+            <li>Long-form opens with a keyword-driven trailer, ≤ 90s, landing cleanly into the intro.</li>
+            <li>Long-form carries no running captions; keyword supers only where used.</li>
+            <li>Typography, colour theme and assets are uniform across long-form, teaser and shorts.</li>
+            <li>Shorts captions single-line ~16 chars and in sync; names, word-pairs and units kept whole.</li>
+            <li>All text, faces and logos inside the safe zone for each ratio.</li>
+            <li>Audio: voices lead, peaks -5 to -2 dB, -14 LUFS, master never clips; short fades in/out.</li>
+            <li>Long-form has no music under the conversation and no dominant SFX.</li>
+            <li>Every short ends with a CTA to the long-form; the teaser hooks to the full episode.</li>
+            <li>Ratios correct — 16 : 9 long-form and teaser, 9 : 16 shorts.</li>
+            <li>Spelling checked across video and subtitles; every third-party asset is licensed.</li>
+            <li>Files named to convention and the project backup is packaged for handoff.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 11 -->
+      <section id="delivery">
+        <div class="card">
+          <div class="kicker"><span class="dot" style="background:var(--yellow)"></span><span class="sec">11 · Delivery</span></div>
+          <h2>Naming, Backup &amp; Accountability</h2>
+          <figure class="sec-ref">
+            <img src="assets/img/sec-delivery.png" alt="Organized, correctly named export files and project folders ready for handoff" loading="lazy" />
+            <figcaption><span class="tag">REF</span> Named to convention, full project backup packaged for handoff</figcaption>
+          </figure>
+
+          <h3>File naming</h3>
+          <p>Podcast files follow the House underscore convention — every field in order, no spaces. Confirm the exact product prefix with your pod manager.</p>
+          <pre class="name">POD_[GuestShortName]_[EP##]_[Deliverable]_[Ratio]_v#</pre>
+          <p class="muted" style="font-size:13px;margin:6px 0 0">Deliverable codes: <code>LF</code> long-form · <code>TZ</code> teaser · <code>SF01</code>–<code>SF05</code> shorts. Ratio: <code>1609</code> or <code>0916</code>. Append <code>_FINAL</code> and freeze changes on the final cut.</p>
+          <p class="ex">POD_RaviKumar_EP07_LF_1609_v2.mp4 &nbsp;·&nbsp; POD_RaviKumar_EP07_SF01_0916_v1.mp4</p>
+
+          <h3>Project backup &amp; handoff</h3>
+          <p>Podcasts are not ads — so the editor hands over the <strong>complete project backup with all project files</strong>: project/source files, the multi-cam sequence, linked footage, graphics, audio and licences, packaged and named per convention. This is separate from the shorts-assignment rule in §06 — that's about how the pod manager briefs shorts, this is about your end-of-project handoff to the company.</p>
+
+          <h3>Accountability</h3>
+          <p>The editor owns the cut end to end — a complete, correct, review-ready set, not a rough draft for QC to clean up. Proofread spelling across the video and subtitles, and make sure any on-screen prices match the current landing page.</p>
+
+          <div class="callout amber">
+            <div class="ct">Who to reach</div>
+            <p><strong>Producer / team manager</strong> — footage, sync or media problems found during intake. <strong>Pod manager</strong> — no multi-cam experience, or a short assigned without a script.</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <div>House of EdTech · GK House of EdTech Pvt. Ltd. · Video Editor SOP — Podcast Video (Multi-Cam) · v1.0 · Internal use only.</div>
+    <div class="src">Universal on-screen, audio and delivery rules adapted from the <a href="https://hoet-ots.vercel.app/editing-guidelines" target="_blank" rel="noreferrer">HOET Editing Guidelines</a>.</div>
+  </footer>
+</div>
+
+<script>
+  document.body.classList.add('loaded');
+
+  // Theme toggle
+  (function(){
+    var btn = document.getElementById('themeBtn');
+    if(!btn) return;
+    function sync(){
+      var t = document.documentElement.getAttribute('data-theme') || 'dark';
+      btn.querySelector('.ti').textContent = t === 'light' ? '☀' : '☾';
+      btn.querySelector('.tl').textContent = t === 'light' ? 'Light' : 'Dark';
+    }
+    sync();
+    btn.addEventListener('click', function(){
+      var next = (document.documentElement.getAttribute('data-theme') === 'light') ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      try{ localStorage.setItem('hoet-theme', next); }catch(e){}
+      sync();
+    });
+  })();
+
+  // Mobile TOC toggle
+  var toc = document.getElementById('toc');
+  var head = document.getElementById('tocHead');
+  if(head){ head.addEventListener('click', function(){ toc.classList.toggle('open'); }); }
+
+  // Close mobile TOC on link tap
+  toc.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ if(window.innerWidth <= 920) toc.classList.remove('open'); });
+  });
+
+  // Scroll-spy for active section
+  var links = Array.prototype.slice.call(toc.querySelectorAll('a'));
+  var map = {};
+  links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        links.forEach(function(l){ l.classList.remove('active'); });
+        var act = map[e.target.id];
+        if(act) act.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+  document.querySelectorAll('main section').forEach(function(s){ obs.observe(s); });
+</script>
+</body>
+</html>
