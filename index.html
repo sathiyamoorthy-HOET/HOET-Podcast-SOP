@@ -108,7 +108,7 @@
     position:sticky;top:0;z-index:40;backdrop-filter:blur(12px);
     background:var(--topbar);border-bottom:1px solid var(--border);
   }
-  .topbar-inner{max-width:1120px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .topbar-inner{max-width:1720px;margin:0 auto;padding:12px 34px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
   .brand{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:-.01em;color:var(--fg)}
   .brand img{height:24px;width:auto;display:block}
   .brand .mark{height:26px;width:26px;border-radius:7px;background:linear-gradient(135deg,var(--sky),var(--emerald));display:none;align-items:center;justify-content:center;font-weight:800;color:#04111a;font-size:13px}
@@ -121,7 +121,7 @@
   .theme-btn .ti{font-size:13px;line-height:1}
 
   /* Layout */
-  .wrap{max-width:1120px;margin:0 auto;padding:0 22px;position:relative;z-index:1}
+  .wrap{max-width:1720px;margin:0 auto;padding:0 34px;position:relative;z-index:1}
   .hero{padding:56px 0 30px;border-bottom:1px solid var(--border)}
   .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
   .eyebrow .bar{width:5px;height:14px;border-radius:99px;background:linear-gradient(180deg,var(--sky),var(--emerald))}
@@ -396,46 +396,10 @@
 </head>
 <body>
 
-<!-- Decorative gutter rails — the wide-screen margins become the editor's monitor bank -->
-<div class="edge-rails" aria-hidden="true">
-  <!-- LEFT · the three synced source angles -->
-  <div class="rail rail-l">
-    <div class="rail-film"></div>
-    <div class="rail-mid">
-      <span class="rail-glow"></span>
-      <span class="rail-cap">Source Angles</span>
-      <div class="cam-stack src">
-        <figure class="mon h"><img src="assets/img/frame-cam-a.jpg" alt="" loading="lazy"><figcaption><span class="tal"></span>Cam A · Close-up</figcaption></figure>
-        <figure class="mon h"><img src="assets/img/frame-cam-b.jpg" alt="" loading="lazy"><figcaption><span class="tal"></span>Cam B · Close-up</figcaption></figure>
-        <figure class="mon h"><img src="assets/img/frame-wide.jpg" alt="" loading="lazy"><figcaption><span class="tal g"></span>Wide · Two-shot</figcaption></figure>
-      </div>
-    </div>
-    <div class="rail-ruler"><div class="rail-tc">
-      <span>00:00:00</span><span>00:06:40</span><span>00:14:12</span><span>00:22:38</span><span>00:35:20</span><span>00:52:44</span><span>01:08:16</span>
-    </div></div>
-  </div>
-  <!-- RIGHT · the deliverables cut from them -->
-  <div class="rail rail-r">
-    <div class="rail-film"></div>
-    <div class="rail-mid">
-      <span class="rail-glow"></span>
-      <span class="rail-cap">Deliverables</span>
-      <div class="cam-stack out">
-        <figure class="mon h"><img src="assets/img/frame-wide.jpg" alt="" loading="lazy"><figcaption><span class="tal g"></span>Long-form · 16:9</figcaption></figure>
-        <figure class="mon h"><img src="assets/img/frame-cam-a.jpg" alt="" loading="lazy"><figcaption><span class="tal g"></span>Teaser · 16:9</figcaption></figure>
-        <figure class="mon v"><img src="assets/img/short-b.jpg" alt="" loading="lazy"><figcaption><span class="tal g"></span>Short · 9:16</figcaption></figure>
-      </div>
-    </div>
-    <div class="rail-ruler"><div class="rail-tc">
-      <span>Cam A</span><span>Cam B</span><span>Wide</span><span>Sync ✓</span><span>-14 LUFS</span><span>V1·V2·V3</span><span>A1·A2</span>
-    </div></div>
-  </div>
-</div>
-
 <header class="topbar">
   <div class="topbar-inner">
-    <a class="brand" href="https://hoet-ots.vercel.app/" target="_blank" rel="noreferrer" aria-label="House of EdTech home">
-      <img src="https://hoet-ots.vercel.app/assets/hoet-logo-o8SVQ-b2.png" alt="House of EdTech" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+    <a class="brand" href="/" aria-label="Podcast Video Editing SOP — top">
+      <img src="assets/img/hoet-logo.png" alt="House of EdTech" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
       <span class="mark">H</span>
     </a>
     <div class="crumb">
