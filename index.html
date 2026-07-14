@@ -121,7 +121,7 @@
   .theme-btn .ti{font-size:13px;line-height:1}
 
   /* Layout */
-  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px;position:relative;z-index:1}
   .hero{padding:56px 0 30px;border-bottom:1px solid var(--border)}
   .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
   .eyebrow .bar{width:5px;height:14px;border-radius:99px;background:linear-gradient(180deg,var(--sky),var(--emerald))}
@@ -288,9 +288,102 @@
   :focus-visible{outline:2px solid var(--sky);outline-offset:2px;border-radius:4px}
   body.loaded .card{animation:rise .5s ease both}
   @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* ══ Typography in context — uniform type system across deliverables ══ */
+  .type-grid{display:grid;grid-template-columns:1fr 1fr .64fr;gap:14px;margin-top:14px;align-items:start}
+  @media (max-width:720px){.type-grid{grid-template-columns:1fr 1fr}.type-grid .tf-916{grid-column:1 / -1;max-width:280px;margin-left:auto;margin-right:auto}}
+  @media (max-width:480px){.type-grid{grid-template-columns:1fr}}
+  .tf{margin:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--card-2)}
+  .tf-frame{position:relative;overflow:hidden;background:#000}
+  .tf-169 .tf-frame{aspect-ratio:16/9}
+  .tf-916 .tf-frame{aspect-ratio:9/16}
+  .tf-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .tf figcaption{font-family:var(--mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);padding:8px 11px;border-top:1px solid var(--border);display:flex;justify-content:space-between;gap:8px}
+  .tf figcaption .r{color:var(--sky);flex:none}
+  /* burned-in overlays */
+  .ov-scrim{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.6),rgba(0,0,0,0) 46%),linear-gradient(180deg,rgba(0,0,0,.42),rgba(0,0,0,0) 34%)}
+  .ov{position:absolute;pointer-events:none;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+  .o-super{top:12px;left:15px;right:15px;font-family:'Poppins',var(--sans);font-weight:600;color:#fff;font-size:clamp(.7rem,1.55vw,1rem);line-height:1.16}
+  .o-super b{color:#fbbf24;font-weight:700}
+  .o-title{left:15px;right:15px;bottom:52px;font-family:'Oswald',var(--sans);font-weight:700;text-transform:uppercase;color:#fff;font-size:clamp(1.15rem,3vw,2rem);line-height:.97;letter-spacing:.01em}
+  .o-title b{color:#fbbf24}
+  .o-lower{left:15px;bottom:14px}
+  .o-lower .nm{font-family:'Manrope',var(--sans);font-weight:700;color:#fff;font-size:clamp(.82rem,1.85vw,1.15rem);line-height:1}
+  .o-lower .ti{font-family:'Manrope',var(--sans);font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#eaeaea;font-size:clamp(.5rem,1.05vw,.7rem);margin-top:5px}
+  .o-lower .ti b{color:#fbbf24;font-weight:700}
+  .o-cap{left:0;right:0;bottom:74px;text-align:center}
+  .o-cap span{display:inline-block;font-family:'Manrope',var(--sans);font-weight:700;font-size:clamp(.72rem,4vw,1.05rem);color:#0a0a0a;background:#fff;padding:5px 12px;border-radius:7px;letter-spacing:.01em;text-shadow:none}
+  .o-cta{left:0;right:0;bottom:30px;text-align:center;font-family:'Manrope',var(--sans);font-weight:700;font-size:clamp(.56rem,2.9vw,.74rem);text-transform:uppercase;letter-spacing:.11em;color:#fff}
+  .o-cta b{color:#fbbf24}
+
+  /* ══ Decorative gutter rails: multi-cam monitor banks (wide screens only) ══ */
+  .edge-rails{position:fixed;inset:0;z-index:0;pointer-events:none;display:none}
+  @media (min-width:1560px){ .edge-rails{display:block} }
+  .rail{position:fixed;top:0;bottom:0;width:calc((100vw - 1160px)/2);display:flex;overflow:hidden;font-family:var(--mono)}
+  .rail-l{left:0}
+  .rail-r{right:0;flex-direction:row-reverse}
+  .rail-film{flex:none;width:26px;background:var(--t-03);background-image:radial-gradient(circle,var(--border-strong) 2px,transparent 2.5px);background-size:100% 26px;background-position:center;background-repeat:repeat-y}
+  .rail-l .rail-film{border-right:1px solid var(--border)}
+  .rail-r .rail-film{border-left:1px solid var(--border)}
+  .rail-ruler{flex:none;width:52px;position:relative;background-image:repeating-linear-gradient(180deg,var(--border-strong) 0 1px,transparent 1px 96px),repeating-linear-gradient(180deg,var(--muted-2) 0 1px,transparent 1px 24px);background-size:52px 96px,13px 24px;background-repeat:repeat-y,repeat-y;opacity:.5}
+  .rail-l .rail-ruler{border-left:1px solid var(--border);background-position:right top,right top}
+  .rail-r .rail-ruler{border-right:1px solid var(--border);background-position:left top,left top}
+  .rail-tc{position:absolute;top:0;bottom:0;display:flex;flex-direction:column;justify-content:space-around;padding:8vh 5px;font-size:8.5px;letter-spacing:.02em;color:var(--muted-2)}
+  .rail-l .rail-tc{right:0;align-items:flex-end;text-align:right}
+  .rail-r .rail-tc{left:0;align-items:flex-start}
+  .rail-mid{flex:1;position:relative;min-width:0}
+  .rail-glow{position:absolute;width:20rem;height:20rem;border-radius:50%;filter:blur(64px)}
+  .rail-l .rail-glow{top:4%;left:-7rem;background:radial-gradient(circle,rgba(56,189,248,.12),transparent 70%)}
+  .rail-r .rail-glow{bottom:6%;right:-7rem;background:radial-gradient(circle,rgba(52,211,153,.12),transparent 70%)}
+  .rail-cap{position:absolute;top:0;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:9px;letter-spacing:.17em;text-transform:uppercase;color:var(--muted-2);padding-top:15vh}
+  .cam-stack{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;gap:13px;width:84%;max-width:142px}
+  .mon{margin:0;border:1px solid var(--border-strong);border-radius:8px;overflow:hidden;background:var(--card);box-shadow:0 8px 22px rgba(0,0,0,.4)}
+  .mon img{display:block;width:100%;object-fit:cover}
+  .mon.h img{aspect-ratio:16/9}
+  .mon.v img{aspect-ratio:9/16}
+  .cam-stack.out .mon.v{width:64%;margin-left:auto;margin-right:auto}
+  .mon figcaption{display:flex;align-items:center;gap:6px;font-size:8px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding:5px 7px;border-top:1px solid var(--border)}
+  .mon .tal{width:5px;height:5px;border-radius:50%;background:var(--rose);flex:none;box-shadow:0 0 6px var(--rose)}
+  .mon .tal.g{background:var(--emerald);box-shadow:0 0 6px var(--emerald)}
 </style>
 </head>
 <body>
+
+<!-- Decorative gutter rails — the wide-screen margins become the editor's monitor bank -->
+<div class="edge-rails" aria-hidden="true">
+  <!-- LEFT · the three synced source angles -->
+  <div class="rail rail-l">
+    <div class="rail-film"></div>
+    <div class="rail-mid">
+      <span class="rail-glow"></span>
+      <span class="rail-cap">Source Angles</span>
+      <div class="cam-stack src">
+        <figure class="mon h"><img src="assets/img/frame-cam-a.jpg" alt="" loading="lazy"><figcaption><span class="tal"></span>Cam A · Close-up</figcaption></figure>
+        <figure class="mon h"><img src="assets/img/frame-cam-b.jpg" alt="" loading="lazy"><figcaption><span class="tal"></span>Cam B · Close-up</figcaption></figure>
+        <figure class="mon h"><img src="assets/img/frame-wide.jpg" alt="" loading="lazy"><figcaption><span class="tal g"></span>Wide · Two-shot</figcaption></figure>
+      </div>
+    </div>
+    <div class="rail-ruler"><div class="rail-tc">
+      <span>00:00:00</span><span>00:06:40</span><span>00:14:12</span><span>00:22:38</span><span>00:35:20</span><span>00:52:44</span><span>01:08:16</span>
+    </div></div>
+  </div>
+  <!-- RIGHT · the deliverables cut from them -->
+  <div class="rail rail-r">
+    <div class="rail-film"></div>
+    <div class="rail-mid">
+      <span class="rail-glow"></span>
+      <span class="rail-cap">Deliverables</span>
+      <div class="cam-stack out">
+        <figure class="mon h"><img src="assets/img/frame-wide.jpg" alt="" loading="lazy"><figcaption><span class="tal g"></span>Long-form · 16:9</figcaption></figure>
+        <figure class="mon h"><img src="assets/img/frame-cam-a.jpg" alt="" loading="lazy"><figcaption><span class="tal g"></span>Teaser · 16:9</figcaption></figure>
+        <figure class="mon v"><img src="assets/img/short-b.jpg" alt="" loading="lazy"><figcaption><span class="tal g"></span>Short · 9:16</figcaption></figure>
+      </div>
+    </div>
+    <div class="rail-ruler"><div class="rail-tc">
+      <span>Cam A</span><span>Cam B</span><span>Wide</span><span>Sync ✓</span><span>-14 LUFS</span><span>V1·V2·V3</span><span>A1·A2</span>
+    </div></div>
+  </div>
+</div>
 
 <header class="topbar">
   <div class="topbar-inner">
@@ -401,7 +494,7 @@
           <div class="kicker"><span class="dot" style="background:var(--violet)"></span><span class="sec">03 · Setup</span></div>
           <h2>Multi-Cam Setup (Mandatory)</h2>
           <figure class="sec-ref">
-            <img src="assets/img/sec-multicam.png" alt="Three-camera podcast setup: two close-ups and one wide combined two-shot" loading="lazy" />
+            <img src="assets/img/frame-wide.jpg" alt="Three-camera podcast setup: two close-ups and one wide combined two-shot" loading="lazy" />
             <figcaption><span class="tag">REF</span> Typical 3-camera podcast — two close-ups (CAM A / CAM B) + one wide two-shot</figcaption>
           </figure>
           <div class="mc-split">
@@ -467,10 +560,40 @@
               <div class="ts-sample"><span class="ts-cap">this changed it</span></div>
             </div>
           </div>
-          <figure class="type-frame">
-            <img src="assets/img/sec-type-frame.png" alt="Podcast frame with the name lower-third and keyword super burned in as they appear on air" loading="lazy" />
-            <figcaption>The type roles <b>in context</b> — the name lower-third and keyword super as they sit on an actual 16:9 frame.</figcaption>
-          </figure>
+          <h3>The type system in context — same fonts, colour &amp; treatment on every output</h3>
+          <p>The same roles, burned onto real frames from the episode. One font per role, one accent colour for the highlighted keyword — carried identically from the long-form through the teaser and into every short. Only <em>what</em> shows changes with the format: the long-form and teaser stay caption-free; the short runs a live caption and a CTA.</p>
+          <div class="type-grid">
+            <!-- Long-form 16:9 — lower-third + keyword super, no captions -->
+            <figure class="tf tf-169">
+              <div class="tf-frame">
+                <img src="assets/img/frame-wide.jpg" alt="Long-form frame with a keyword super and name lower-third" loading="lazy" />
+                <div class="ov-scrim"></div>
+                <div class="ov o-super">Scaling to <b>1 million</b> learners</div>
+                <div class="ov o-lower"><div class="nm">Ravi Kumar</div><div class="ti">Founder &amp; CEO · <b>EduSpark</b></div></div>
+              </div>
+              <figcaption><span>Long-form · lower-third + super</span><span class="r">16 : 9</span></figcaption>
+            </figure>
+            <!-- Teaser 16:9 — title (Oswald) + keyword super -->
+            <figure class="tf tf-169">
+              <div class="tf-frame">
+                <img src="assets/img/frame-cam-a.jpg" alt="Teaser frame with a bold Oswald title" loading="lazy" />
+                <div class="ov-scrim"></div>
+                <div class="ov o-title">The Future<br><b>of EdTech</b></div>
+              </div>
+              <figcaption><span>Teaser · bold title</span><span class="r">16 : 9</span></figcaption>
+            </figure>
+            <!-- Short 9:16 — running caption + super + CTA -->
+            <figure class="tf tf-916">
+              <div class="tf-frame">
+                <img src="assets/img/short-b.jpg" alt="Vertical short frame with a single-line caption, super and CTA" loading="lazy" />
+                <div class="ov-scrim"></div>
+                <div class="ov o-super"><b>1 million</b> learners</div>
+                <div class="ov o-cap"><span>this changed it</span></div>
+                <div class="ov o-cta">▶ Watch the <b>full episode</b></div>
+              </div>
+              <figcaption><span>Short · caption + CTA</span><span class="r">9 : 16</span></figcaption>
+            </figure>
+          </div>
           <div class="callout amber">
             <div class="ct">Type discipline</div>
             <p>One font per role, one weight ladder, one accent colour for the highlighted keyword — held identical from the long-form through to every short. The full on-screen text rules live in <a href="https://hoet-ots.vercel.app/editing-guidelines" target="_blank" rel="noreferrer" style="color:var(--sky)">Universal On-Screen Rules</a> (§09).</p>
@@ -478,15 +601,15 @@
 
           <div class="look-gallery">
             <figure class="g-wide">
-              <img src="assets/img/pod-longform-1609.png" alt="Long-form podcast frame — wide multi-cam studio two-shot" loading="lazy" />
+              <img src="assets/img/frame-wide.jpg" alt="Long-form podcast frame — wide multi-cam studio two-shot" loading="lazy" />
               <figcaption><span>Long-form · full episode</span><span class="r">16 : 9</span></figcaption>
             </figure>
             <figure class="g-wide">
-              <img src="assets/img/pod-teaser-1609.png" alt="Teaser frame — cross-angle two-shot from the same studio" loading="lazy" />
+              <img src="assets/img/frame-cam-a.jpg" alt="Teaser frame — cross-angle close-up from the same studio" loading="lazy" />
               <figcaption><span>Teaser · same grade &amp; type</span><span class="r">16 : 9</span></figcaption>
             </figure>
             <figure class="g-tall">
-              <img src="assets/img/pod-short-0916.png" alt="Vertical short frame — single speaker reframed from the multi-cam source" loading="lazy" />
+              <img src="assets/img/short-b.jpg" alt="Vertical short frame — single speaker reframed from the multi-cam source" loading="lazy" />
               <figcaption><span>Short</span><span class="r">9 : 16</span></figcaption>
             </figure>
           </div>
@@ -505,7 +628,7 @@
           <div class="kicker"><span class="dot" style="background:var(--blue)"></span><span class="sec">05 · Long-Form</span></div>
           <h2>Long-Form Edit Standards</h2>
           <figure class="sec-ref">
-            <img src="assets/img/sec-longform.png" alt="Calm premium wide two-shot of two podcast hosts in conversation" loading="lazy" />
+            <img src="assets/img/frame-cam-b.jpg" alt="Calm premium close-up of a podcast guest mid-conversation" loading="lazy" />
             <figcaption><span class="tag">REF</span> The long-form feel — calm, premium, the room and the exchange</figcaption>
           </figure>
           <p>The long-form is a <strong>classical, premium conversation edit</strong> — 16 : 9, calm, and confident. It is not a reel. The viewer should feel the room and the exchange, not the editor.</p>
@@ -564,7 +687,7 @@
           <div class="kicker"><span class="dot" style="background:var(--amber)"></span><span class="sec">06 · Teaser</span></div>
           <h2>Teaser</h2>
           <figure class="sec-ref">
-            <img src="assets/img/sec-teaser.png" alt="Teaser title card with bold episode title over the studio" loading="lazy" />
+            <img src="assets/img/frame-cam-a.jpg" alt="Teaser title card with bold episode title over the studio" loading="lazy" />
             <figcaption><span class="tag">REF</span> Teaser energy — a bold title moment cut from the long-form</figcaption>
           </figure>
           <p>A short 16 : 9 cut that sells the episode. Built entirely from the finished long-form, so it carries the same grade, typography and look.</p>
@@ -587,7 +710,7 @@
           <div class="kicker"><span class="dot" style="background:var(--fuchsia)"></span><span class="sec">07 · Shorts</span></div>
           <h2>Short-Form (9 : 16)</h2>
           <figure class="sec-ref vert">
-            <img src="assets/img/sec-shorts.png" alt="Vertical short with a bold single-line caption and a CTA at the bottom" loading="lazy" />
+            <img src="assets/img/short-a.jpg" alt="Vertical short with a bold single-line caption and a CTA at the bottom" loading="lazy" />
             <figcaption><span class="tag">REF</span> 9 : 16 · caption + CTA</figcaption>
           </figure>
           <p>Three to five vertical shorts per episode, each a self-contained moment that ends by driving viewers to the long-form.</p>
