@@ -96,7 +96,7 @@
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
   body{
     margin:0;background:var(--bg);color:var(--fg-soft);font-family:var(--sans);
-    font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;
     background-image:radial-gradient(60rem 34rem at 82% -10%,var(--glow),transparent 62%);
     background-attachment:fixed;
   }
@@ -256,13 +256,17 @@
   .ts-super b{color:var(--amber);font-weight:700}
   .ts-cap{display:inline-block;font-family:'Manrope',var(--sans);font-weight:600;font-size:1rem;color:#0a0a0a;background:#fff;padding:5px 12px;border-radius:7px;letter-spacing:.01em;border:1px solid var(--border-strong)}
 
-  /* Section reference banner */
-  .sec-ref{margin:0 0 18px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--card-2)}
+  /* Section reference — small thumbnail floated to the section's top-right */
+  .sec-ref{float:right;width:clamp(230px,28%,330px);margin:2px 0 14px 26px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--card-2)}
   .sec-ref img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
-  .sec-ref figcaption{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding:8px 12px;border-top:1px solid var(--border);display:flex;gap:9px;align-items:center}
+  .sec-ref figcaption{font-family:var(--mono);font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);padding:7px 10px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:center;line-height:1.4}
   .sec-ref figcaption .tag{color:var(--sky);flex:none}
-  .sec-ref.vert{max-width:270px;margin-left:auto;margin-right:auto}
+  .sec-ref.vert{width:clamp(150px,16%,196px)}
   .sec-ref.vert img{aspect-ratio:9/16}
+  /* contain the float, and stop bordered/complex blocks sliding under it */
+  .card::after{content:"";display:block;clear:both}
+  .card > .callout,.card > .two,.card > .tscroll,.card > .type-spec,.card > .type-grid,.card > .look-gallery,.card > .mc-split,.card > pre.name{clear:right}
+  @media (max-width:720px){.sec-ref,.sec-ref.vert{float:none;width:auto;margin:0 0 16px}.sec-ref.vert{max-width:240px;margin-left:auto;margin-right:auto}}
   .type-frame{margin-top:14px;border:1px solid var(--border);border-radius:11px;overflow:hidden;background:var(--card-2)}
   .type-frame img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
   .type-frame figcaption{font-size:12px;color:var(--muted);padding:9px 13px;border-top:1px solid var(--border)}
@@ -524,10 +528,6 @@
         <div class="card">
           <div class="kicker"><span class="dot" style="background:var(--violet)"></span><span class="sec">03 · Setup</span></div>
           <h2>Multi-Cam Setup (Mandatory)</h2>
-          <figure class="sec-ref">
-            <img src="assets/img/frame-wide.jpg" alt="Three-camera podcast setup: two close-ups and one wide combined two-shot" loading="lazy" />
-            <figcaption><span class="tag">REF</span> Typical 3-camera podcast — two close-ups (CAM A / CAM B) + one wide two-shot</figcaption>
-          </figure>
           <div class="mc-split">
             <div>
               <p>Podcasts are shot on <strong>three cameras — usually two close-ups (one on each speaker) and one wide combined two-shot</strong>. All three angles are edited as a true multi-cam sequence in your editing software — Premiere Pro <span class="muted">(Multi-Camera Source Sequence)</span>, DaVinci Resolve <span class="muted">(Multicam Clip)</span>, or Final Cut Pro <span class="muted">(Multicam Clip)</span>. You cut angles live against a single synced timeline.</p>
